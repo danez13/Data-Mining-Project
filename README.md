@@ -1,5 +1,5 @@
 # Project 1
-# Check List
+## Tasks
 - [X] main file
   - [X] arguments
   - [ ] rule generation
@@ -26,16 +26,16 @@ I expect all of you to contribute and do your best for your team! All three (3) 
 
 ## Deliverables
 1. Main python file for rule generation
-    1. You need to submit a generate-rules<teamID>.py (e.g. generate-rules01.py) file that will implement one simple run of the rule generation process based on the following input arguments:
+    1. You need to submit a `generate-rules<teamID>.py` (e.g. generate-rules01.py) file that will implement one simple run of the rule generation process based on the following input arguments:
         * minsuppc (minimum support count),
         * minconf (minimum confidence; when minconf=-1, do not generate rules.),
         * input_file (input file name).
     2. After generating the rules for the given arguments, you need to generate three different output files.
-        1. items<teamID>.txt: This output file will contain as many lines as the number of frequent itemsets, with their support count. The format of each line will be *exactly* as follows: `ITEMSETS|SUPPORT_COUNT|SUPPORT`
+        1. `items<teamID>.txt`: This output file will contain as many lines as the number of frequent itemsets, with their support count. The format of each line will be *exactly* as follows: `ITEMSETS|SUPPORT_COUNT|SUPPORT`
             * ITEMSETS correspond to the items present in the itemset in a space-delimited fashion. E.g., “item1 item2 item3|10|0.1”. Notice that there are no other spaces other than the ones that separate the items. 
-        2. rules<teamID>.txt: This output file will contain as many lines as the number of high-confidence frequent rules that you found. The format of each line will be *exactly* as follows: `LHS|RHS|SUPPORT_COUNT|SUPPORT|CONFIDENCE|LIFT`
+        2. `rules<teamID>.txt`: This output file will contain as many lines as the number of high-confidence frequent rules that you found. The format of each line will be *exactly* as follows: `LHS|RHS|SUPPORT_COUNT|SUPPORT|CONFIDENCE|LIFT`
             * where both LHS (and RHS) will contain the items that make up the left- (and right-) hand side of the rule in a space-delimited fashion. E.g., “item1 item2|item3|200|0.3|0.1|0.1”. Notice that there are no other spaces other than the ones that separate the items. When minconf=-1, the file will not be generated.
-        3. info<teamID>.txt: This file will have a line for each piece of information, including the input parameters. More specifically, it will need to include the following information:
+        3. `info<teamID>.txt`: This file will have a line for each piece of information, including the input parameters. More specifically, it will need to include the following information:
             ```
             minsuppc:
             minconf:
@@ -46,7 +46,7 @@ I expect all of you to contribute and do your best for your team! All three (3) 
             Number of frequent 1-itemsets:
             Number of frequent 2-itemsets:
             ...
-            Number of frequent 𝑘 –itemsets:
+            Number of frequent k-itemsets:
             Total number of frequent itemsets:
             Number of high-confidence rules:
             The rule with the highest confidence:
@@ -55,8 +55,8 @@ I expect all of you to contribute and do your best for your team! All three (3) 
             Time in seconds to find the confident rules:
             ``` 
 2. Python file or notebook for visualization
-    * You need to submit a generate-plots<teamID>.py (e.g. generate-plots01.py) file that will read the necessary output files from the previous step and generate the plots needed for the report. All the plots should have axis labels and titles. Note that: all the required plots/information need to be included in your report; having them only in the notebook is not enough.
+    * You need to submit a `generate-plots<teamID>.py` (e.g. generate-plots01.py) file that will read the necessary output files from the previous step and generate the plots needed for the report. All the plots should have axis labels and titles. Note that: all the required plots/information need to be included in your report; having them only in the notebook is not enough.
 
 3. Report and requested output files
-    * Complete the report00.docx file provided. The file submitted should have the name report<teamID>.pdf, (e.g.report01.pdf). Some requested output files will also need to be submitted. Do not copy-paste them into the report.
+    * Complete the report00.docx file provided. The file submitted should have the name `report<teamID>.pdf`, (e.g.report01.pdf). Some requested output files will also need to be submitted. Do not copy-paste them into the report.
 4. Peer evaluations
