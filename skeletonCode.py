@@ -52,18 +52,7 @@ class Apriori:
         Output:
         dict: Dictionary mapping candidate itemsets to their support counts.
         """
-        support_map = {}
-        
-        for candidate in candidates:
-            item = "".join(candidate)
-            
-            if item not in support_map:
-                support_map[item] = 0
-
-            for transaction in transactions:
-                if item in transaction:
-                    support_map[item]+=(1/len(transactions))
-        return support_map
+        pass  # TODO: Implement support counting logic
     
     def eliminate_infrequent(self, candidates):
         """
@@ -75,13 +64,7 @@ class Apriori:
         Output:
         dict: Dictionary of itemsets that meet the support threshold.
         """
-        frequent_itemsets = {}
-
-        for item, support_count in candidates.items():
-            if support_count > self.min_support:
-                frequent_itemsets[item]=support_count
-        
-        return frequent_itemsets
+        pass  # TODO: Implement elimination of infrequent itemsets
     
     def find_frequent_itemsets(self, transactions):
         """
@@ -105,11 +88,9 @@ class Apriori:
         k = 1
         current_candidates_itemsets = {frozenset([item]) for transaction in transactions for item in transaction}
         support_counts = self.count_support(transactions, current_candidates_itemsets)
-
+        
         self.frequent_itemsets = {}  # Set frequent itemsets dictionary
         self.frequent_itemsets[1] = self.eliminate_infrequent(support_counts)
-        current_frequent_itemsets = self.frequent_itemsets[k]
-        
         while current_frequent_itemsets:
 
             # generate candidate itemsets
@@ -124,15 +105,13 @@ class Apriori:
             # Eliminate infrequent itemsets
             frequent_itemsets_k = self.eliminate_infrequent(support_counts)
 
-        # If empty, break
+          # If empty, break
             if not frequent_itemsets_k:
                 break
             
             # Store frequent itemsets under their respective size category
             self.frequent_itemsets[k] = frequent_itemsets_k
             
-            current_frequent_itemsets = frequent_itemsets_k
-
             # Go to the next level
             k += 1
             

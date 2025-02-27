@@ -1,5 +1,4 @@
-import argparse
-
+from itertools import combinations
 class Apriori:
     def __init__(self, min_support, min_confidence):
         """
@@ -14,6 +13,7 @@ class Apriori:
         """
         self.min_support = min_support
         self.min_confidence = min_confidence
+        self.num_transactions = 0
         self.frequent_itemsets = {}  # Dictionary to store frequent itemsets with their support counts, organized by size
         self.rules = []  # List to store generated association rules
     
@@ -28,7 +28,13 @@ class Apriori:
         Output:
         set of frozensets: Generated candidate itemsets.
         """
-        pass  # TODO: Implement candidate generation logic
+        candidates = set()
+        for item in self.frequent_itemsets[1]:
+            for itemset in prev_frequent_itemsets:
+                if item.issubset(itemset):
+                    continue
+                candidates.add(itemset.union(item))
+        return candidates
     
     def prune_candidates(self, candidates, prev_frequent_itemsets):
         """
@@ -41,7 +47,13 @@ class Apriori:
         Output:
         set of frozensets: Pruned candidate itemsets.
         """
-        pass  # TODO: Implement candidate pruning logic
+        pruned = set()
+        prev_frequent_itemsets = set().union(*prev_frequent_itemsets)
+        for candidate in candidates:
+            if not candidate.issubset(prev_frequent_itemsets):
+                continue
+            pruned.add(candidate)
+        return pruned
     
     def count_support(self, transactions, candidates):
         """
@@ -54,18 +66,14 @@ class Apriori:
         Output:
         dict: Dictionary mapping candidate itemsets to their support counts.
         """
-        support_map = {}
-        
+        support_counts = {}
         for candidate in candidates:
-            item = "".join(candidate)
-            
-            if item not in support_map:
-                support_map[item] = 0
-
+            support_count = 0
             for transaction in transactions:
-                if item in transaction:
-                    support_map[item]+=(1/len(transactions))
-        return support_map
+                if candidate.issubset(transaction):
+                    support_count+=1
+            support_counts[candidate] = support_count
+        return support_counts
     
     def eliminate_infrequent(self, candidates):
         """
@@ -78,11 +86,10 @@ class Apriori:
         dict: Dictionary of itemsets that meet the support threshold.
         """
         frequent_itemsets = {}
-
-        for item, support_count in candidates.items():
-            if support_count > self.min_support:
-                frequent_itemsets[item]=support_count
-        
+        for candidate,support_count in candidates.items():
+            if (support_count/self.num_transactions) < self.min_support:
+                continue
+            frequent_itemsets[candidate]=support_count
         return frequent_itemsets
     
     def find_frequent_itemsets(self, transactions):
@@ -107,38 +114,53 @@ class Apriori:
         k = 1
         current_candidates_itemsets = {frozenset([item]) for transaction in transactions for item in transaction}
         support_counts = self.count_support(transactions, current_candidates_itemsets)
-
+        
         self.frequent_itemsets = {}  # Set frequent itemsets dictionary
         self.frequent_itemsets[1] = self.eliminate_infrequent(support_counts)
-        current_frequent_itemsets = self.frequent_itemsets[k]
-        print(current_frequent_itemsets)
-        
+        current_frequent_itemsets = self.frequent_itemsets[1]
+        frequent_itemsets_k = self.frequent_itemsets[1]
         while current_frequent_itemsets:
 
             # generate candidate itemsets
             candidates = self.generate_candidates(set(frequent_itemsets_k.keys()), k)
-          
+
             # pruning candidate itemsets
             current_candidates_itemsets = self.prune_candidates(candidates, set(frequent_itemsets_k.keys()))
-          
+
             # Count support for current candidates
             support_counts = self.count_support(transactions, current_candidates_itemsets)
-            
+
             # Eliminate infrequent itemsets
             frequent_itemsets_k = self.eliminate_infrequent(support_counts)
 
-        # If empty, break
-            if not frequent_itemsets_k:
-                break
-            
-            # Store frequent itemsets under their respective size category
-            self.frequent_itemsets[k] = frequent_itemsets_k
-            
-            current_frequent_itemsets = frequent_itemsets_k
+            # If empty, break
+            # if not frequent_itemsets_k:
+            #     break
 
             # Go to the next level
             k += 1
-            
+            if k == 3:
+                break
+
+            # Store frequent itemsets under their respective size category
+            self.frequent_itemsets[k] = frequent_itemsets_k
+
+            current_frequent_itemsets = frequent_itemsets_k
+    def generate_item_output(self):
+        with open("items11.txt","w") as file:
+            for itemsets in self.frequent_itemsets.values():
+                for itemset,support in itemsets.items():
+                    file.write(f"{" ".join(map(str, itemset))}|{support}|{support/self.num_transactions}\n")
+
+    def generate_rule_output(self):
+        with open("rules11.txt","w") as file:
+            for rule in self.rules:
+                itemset = rule[0].split(",")+rule[1].split(",")
+                set_size = len(frozenset(itemset))
+                support = self.frequent_itemsets[set_size][frozenset(itemset)]
+                file.write(f"{" ".join(map(str, rule[0].split(',')))}|{" ".join(map(str, rule[1].split(',')))}|{support}|{support/self.num_transactions}|{rule[2]}\n")
+    def generate_info_output(self):
+        pass
     
     def generate_rules(self):
         """
@@ -150,8 +172,30 @@ class Apriori:
         Output:
         None (Updates self.rules)
         """
-        pass  # TODO: Implement rule generation logic
-    
+        # Iterate through each set of itemsets (1-itemsets, 2-itemsets, ...)
+        for k, itemsets in self.frequent_itemsets.items():
+            if k == 1:  # Skip 1-itemsets because they can't generate association rules
+                continue
+            
+            for itemset, support in itemsets.items():
+                # Generate all non-empty subsets of the itemset
+                subsets = list(combinations(itemset, len(itemset)-1))
+                for subset in subsets:
+                    antecedent = frozenset(subset)
+                    consequent = itemset - antecedent  # The rest of the itemset is the consequent
+                    
+                    # Get the support of the antecedent and consequent
+                    antecedent_support = self.frequent_itemsets[len(antecedent)].get(antecedent, 0)
+                    
+                    if antecedent_support > 0:  # Confidence can be calculated only if antecedent support > 0
+                        # Calculate confidence = support(antecedent ∪ consequent) / support(antecedent)
+                        confidence = support / antecedent_support
+                        
+                        # If confidence meets the minimum threshold, add the rule
+                        if confidence >= self.min_confidence:
+                            rule = (*antecedent, *consequent, confidence)
+                            self.rules.append(rule)
+
     def run(self, transactions):
         """
         Execute the Apriori algorithm: find frequent itemsets and generate rules.
@@ -162,40 +206,59 @@ class Apriori:
         Output:
         tuple: (frequent_itemsets, rules)
         """
+        self.num_transactions = len(transactions)
         self.find_frequent_itemsets(transactions)
-        self.generate_rules()
+        # self.generate_item_output()
+        if self.min_confidence != -1:
+            self.generate_rules()
+            self.generate_rule_output()
+        # self.generate_info_output()
         return self.frequent_itemsets, self.rules
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Project 1")
-
-    parser.add_argument("minsuppc", type=float, help="minimum support count")
-    parser.add_argument("minconf", type=float, help="minimum confidence")
-    parser.add_argument("input_file", type=str, help="",default="small.txt")
-
-    args = parser.parse_args()
-
-    minsuppc = args.minsuppc
-    minconf = args.minconf
-    input_file = args.input_file
-
-    transactions:list[set] = []
-    with open(input_file,"r") as file:
+def parse_file(file_path):
+    with open(file_path,"r") as file:
         lines = file.readlines()
+    transactions = []
+    prev_tranaction = -1
     for line in lines:
-        values = line.split(" ")
-        transaction_id = int(values[0])
-        item_id = str(int(values[1]))
-
-        if transaction_id == len(transactions):
+        item = line.split(" ")
+        if prev_tranaction != int(item[0]):
+            prev_tranaction = int(item[0])
             transactions.append(set())
-            
-        transactions[-1].add(item_id)
+        transactions[-1].add(int(item[1]))
+    return transactions
 
-
+# Example usage and play data
+if __name__ == "__main__":
+    transactions = [
+        {"milk", "bread", "nuts", "apple"},
+        {"milk", "bread", "nuts"},
+        {"milk", "bread"},
+        {"milk", "bread", "apple"},
+        {"bread", "apple"},
+    ]
     
-    apriori = Apriori(minsuppc, minconf)
+    min_support = 0.5  # Example threshold
+    min_confidence = 0.7  # Example threshold
+    input_file = "small.txt"
+    # transactions = parse_file(input_file)
+
+    apriori = Apriori(min_support, min_confidence)
     frequent_itemsets, rules = apriori.run(transactions)
     
-    print("Frequent Itemsets:", frequent_itemsets)
-    print("Association Rules:", rules)
+    # print("Frequent Itemsets:", frequent_itemsets)
+    # print("Association Rules:", rules)
+
+    ''' Toy Example Output`  :
+	Frequent Itemsets: {1: {
+                            frozenset({'milk'}): 4,
+                            frozenset({'bread'}): 5,
+                            frozenset({'apple'}): 3
+                            }, 
+                        2: {
+                            frozenset({'milk', 'bread'}): 3,
+                            frozenset({'bread', 'apple'}): 3}
+                            }
+
+	Association Rules: [('milk','bread', 0.75), ('apple','bread', 1.0)]
+    '''

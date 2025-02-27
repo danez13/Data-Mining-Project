@@ -2,7 +2,7 @@
 ## Tasks
 - [X] main file
   - [X] arguments
-  - [ ] rule generation
+  - [X] rule generation
   - [ ] generate output file
     - [ ] items.txt
     - [ ] rules.txt
