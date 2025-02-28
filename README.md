@@ -3,10 +3,10 @@
 - [X] main file
   - [X] arguments
   - [X] rule generation
-  - [ ] generate output file
-    - [ ] items.txt
-    - [ ] rules.txt
-    - [ ] info.txt
+  - [X] generate output file
+    - [X] items.txt
+    - [X] rules.txt
+    - [X] info.txt
 - [ ] Visualization file
 - [ ] Report
 - [ ] Peer Evaluation
