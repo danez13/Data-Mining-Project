@@ -15,7 +15,6 @@ class Apriori:
         """
         self.min_support = min_support
         self.min_confidence = min_confidence
-        self.num_transactions = 0
         self.frequent_itemsets = {}  # Dictionary to store frequent itemsets with their support counts, organized by size
         self.rules = []  # List to store generated association rules
         self.file_path = file_path
@@ -93,7 +92,7 @@ class Apriori:
         """
         frequent_itemsets = {}
         for candidate,support_count in candidates.items():
-            if (support_count/self.num_transactions) < self.min_support:
+            if (support_count) < self.min_support:
                 continue
             frequent_itemsets[candidate]=support_count
         return frequent_itemsets
