@@ -147,13 +147,13 @@ class Apriori:
 
             current_frequent_itemsets = frequent_itemsets_k
     def generate_item_output(self):
-        with open("items11.txt","w") as file:
+        with open("output_files/items11.txt","w") as file:
             for itemsets in self.frequent_itemsets.values():
                 for itemset,support in itemsets.items():
                     file.write(f"{" ".join(map(str, itemset))}|{support}|{support/self.num_transactions}\n")
 
     def generate_rule_output(self):
-        with open("rules11.txt","w") as file:
+        with open("output_files/rules11.txt","w") as file:
             for rule in self.rules:
                 itemset = frozenset(rule[0].split(",")+rule[1].split(","))
 
@@ -173,7 +173,7 @@ class Apriori:
                 file.write(f"{antecedant}|{consequent}|{support_count}|{support_count/self.num_transactions}|{rule_confidence}|{lift}\n")
     
     def generate_info_output(self, find_frequent_time, rule_time):
-        with open("info11.txt","w") as file:
+        with open("output_files/info11.txt","w") as file:
             file.write(f"minsuppc: {self.min_support}\n")
             file.write(f"minconf: {self.min_confidence}\n")
             file.write(f"input file: {self.file_path}\n")
@@ -282,7 +282,6 @@ class Apriori:
                 self.transactions.append(set())
             self.transactions[-1].add(item[1].replace("\n",""))
 
-# Example usage and play data
 if __name__ == "__main__":
     transactions = [
         {"milk", "bread", "nuts", "apple"},
@@ -292,8 +291,8 @@ if __name__ == "__main__":
         {"bread", "apple"},
     ]
     
-    min_support = 0.5  # Example threshold
-    min_confidence = 0.7  # Example threshold
+    min_support = 140  # Example threshold
+    min_confidence = 0.8  # Example threshold
     input_file = "small.txt"
 
     apriori = Apriori(min_support, min_confidence,input_file)
@@ -301,17 +300,3 @@ if __name__ == "__main__":
     
     print("Frequent Itemsets:", frequent_itemsets)
     print("Association Rules:", rules)
-
-    ''' Toy Example Output`  :
-	Frequent Itemsets: {1: {
-                            frozenset({'milk'}): 4,
-                            frozenset({'bread'}): 5,
-                            frozenset({'apple'}): 3
-                            }, 
-                        2: {
-                            frozenset({'milk', 'bread'}): 3,
-                            frozenset({'bread', 'apple'}): 3}
-                            }
-
-	Association Rules: [('milk','bread', 0.75), ('apple','bread', 1.0)]
-    '''
