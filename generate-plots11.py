@@ -2,7 +2,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import os
-import importlib
 
 module = __import__("generate-rules11")
 Apriori = getattr(module, "Apriori")
@@ -92,6 +91,7 @@ for conf in [0.9,0.85,0.8,0.75,0.7]:
     print(f"data retrieved.")
 
 """plotting"""
+os.makedirs("visualizations",exist_ok=True)
 # question 2
 time_df = pd.DataFrame(times)
 print(time_df)

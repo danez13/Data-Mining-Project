@@ -1,5 +1,6 @@
 from itertools import combinations
 import time
+import os
 class Apriori:
     def __init__(self, min_support, min_confidence, file_path):
         """
@@ -32,13 +33,13 @@ class Apriori:
         
         Output:
         set of frozensets: Generated candidate itemsets.
-        """
+        """                                                
         candidates = set()
-        for item in self.frequent_itemsets[1]:
-            for itemset in prev_frequent_itemsets:
-                if item.issubset(itemset):
-                    continue
-                candidates.add(itemset.union(item))
+        for itemset in prev_frequent_itemsets:
+            for compare_itemset in prev_frequent_itemsets:
+                item = itemset.union(compare_itemset)
+                if len(item) == k+1:
+                    candidates.add(frozenset(item))
         return candidates
     
     def prune_candidates(self, candidates, prev_frequent_itemsets):
@@ -53,11 +54,17 @@ class Apriori:
         set of frozensets: Pruned candidate itemsets.
         """
         pruned = set()
-        prev_frequent_itemsets = set().union(*prev_frequent_itemsets)
         for candidate in candidates:
-            if not candidate.issubset(prev_frequent_itemsets):
-                continue
-            pruned.add(candidate)
+            # Check all (k-1)-subsets of the candidate and ensure they are frequent
+            is_valid = True
+            for subset in combinations(candidate, len(candidate) - 1):
+                if frozenset(subset) not in prev_frequent_itemsets:
+                    is_valid = False
+                    break
+            
+            if is_valid:
+                pruned.add(candidate)
+        
         return pruned
     
     def count_support(self, candidates):
@@ -147,12 +154,14 @@ class Apriori:
 
             current_frequent_itemsets = frequent_itemsets_k
     def generate_item_output(self):
+        os.makedirs("output_files",exist_ok=True)
         with open("output_files/items11.txt","w") as file:
             for itemsets in self.frequent_itemsets.values():
                 for itemset,support in itemsets.items():
                     file.write(f"{" ".join(map(str, itemset))}|{support}|{support/self.num_transactions}\n")
 
     def generate_rule_output(self):
+        os.makedirs("output_files",exist_ok=True)
         with open("output_files/rules11.txt","w") as file:
             for rule in self.rules:
                 itemset = frozenset(rule[0].split(",")+rule[1].split(","))
@@ -173,6 +182,7 @@ class Apriori:
                 file.write(f"{antecedant}|{consequent}|{support_count}|{support_count/self.num_transactions}|{rule_confidence}|{lift}\n")
     
     def generate_info_output(self, find_frequent_time, rule_time):
+        os.makedirs("output_files",exist_ok=True)
         with open("output_files/info11.txt","w") as file:
             file.write(f"minsuppc: {self.min_support}\n")
             file.write(f"minconf: {self.min_confidence}\n")
