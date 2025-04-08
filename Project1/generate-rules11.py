@@ -321,7 +321,7 @@ if __name__ == "__main__":
     ]
     
     min_support = 140  # Example threshold for support
-    min_confidence = 0.8  # Example threshold for confidence
+    min_confidence = 0.75  # Example threshold for confidence
     input_file = "small.txt"  # Input file containing transaction data
 
     # Initialize Apriori algorithm and run it

@@ -104,7 +104,7 @@ freq_counts = {"support": [], "count": []}
 # Iterate through different support thresholds (50, 75, 100, 125, 150, 200)
 for supp in [50, 75, 100, 125, 150, 200]:
     print(f"Processing Support: {supp}...")  # Display current support threshold
-    algo = Apriori(supp, 0.8, input_file)  # Initialize the Apriori algorithm with the current support
+    algo = Apriori(supp, 0.75, input_file)  # Initialize the Apriori algorithm with the current support
     algo.run()  # Run the Apriori algorithm
     print("Data generated.")
     
