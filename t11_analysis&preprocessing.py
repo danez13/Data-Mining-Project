@@ -35,8 +35,6 @@ def preprocess_data(data:pd.DataFrame):
 
 if __name__ == "__main__":
     data = pd.read_csv("product_data.csv")
-    data = preprocess_data(data)
-    data.to_csv("product_data_cleaned.csv", index=False)
 
     numerical_description,categorical_description = analyze_data(data)
     print("Numerical data description:")
@@ -44,3 +42,5 @@ if __name__ == "__main__":
     print("Categorical data description:")
     print(categorical_description)
     
+    data = preprocess_data(data)
+    data.to_csv("product_data_cleaned.csv", index=False)

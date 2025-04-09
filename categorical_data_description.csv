@@ -1,7 +1,7 @@
 features:,data type,unique values,most frequent value,most frequent value count,missing %
-original_ID,object,16574,tg_12920261,1,0.0
-name,object,16454,"Friendlys Ice Cream Friendlys  Ice Cream, 1.5 qt",7,0.0
+original_ID,object,16624,tg_12920261,1,0.0
+name,object,16501,"Friendlys Ice Cream Friendlys  Ice Cream, 1.5 qt",7,0.0
 store,object,3,Walmart,5948,0.0
 food category,object,49,prepared-meals-dishes,1279,0.0
-brand,object,2397,Great Value,862,0.0
-f_FPro_class,int64,2,0,12844,0.0
+brand,object,2397,Great Value,862,0.2526467757459095
+f_FPro_class,int64,4,3,12870,0.0
