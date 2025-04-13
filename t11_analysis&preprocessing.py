@@ -31,6 +31,7 @@ def preprocess_data(data:pd.DataFrame):
     data['f_FPro_class'] = data['f_FPro_class'].apply(lambda x: 0 if x == 3 else 1)
     data.dropna(inplace=True)
     data.drop_duplicates(inplace=True)
+    data.drop(columns=["brand", "food category", "store", "name", "original_ID"], inplace=True)
     return data
 
 if __name__ == "__main__":
