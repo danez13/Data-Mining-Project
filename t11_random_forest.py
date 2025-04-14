@@ -9,7 +9,7 @@ y = data["f_FPro_class"]
 X_train_val, Xtest, y_train_val, ytest = train_test_split(X, y, test_size=0.1, random_state=11)
 
 rf_params = {
-
+    
 }
 
 rf = RandomForestClassifier(n_estimators=100, max_features='sqrt', random_state=42)

@@ -61,8 +61,8 @@ for combo in param_combos:
         train_precisions.append(precision_score(y_train, train_preds))
         train_recalls.append(recall_score(y_train, train_preds))
         train_f1.append(f1_score(y_train, train_preds))
-
-        # Validation metrics
+        
+        # Validation metrics        
         validation_preds = model.predict(X_val)
         validation_accuracy = accuracy_score(y_val, validation_preds)
         if best_current_model is None or validation_accuracy > best_accuracy:
@@ -72,7 +72,7 @@ for combo in param_combos:
         validation_precisions.append(precision_score(y_val, validation_preds))
         validation_recalls.append(recall_score(y_val, validation_preds))
         validation_f1.append(f1_score(y_val, validation_preds))
-
+    
     # Test metrics
     test_preds = best_current_model.predict(Xtest)
     test_accuracies.append(accuracy_score(ytest, test_preds))
