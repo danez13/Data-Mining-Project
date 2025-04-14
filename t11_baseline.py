@@ -4,7 +4,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import classification_report, accuracy_score
 
 # Load the dataset
-df = pd.read_csv('product_data_cleaned.csv')
+df = pd.read_csv('t11_cleaned_data.csv')
 
 # Transform f_FPro_class into binary label
 df['label'] = df['f_FPro_class'].apply(lambda x: 0 if x == 3 else 1)
