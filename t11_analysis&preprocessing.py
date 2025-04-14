@@ -1,4 +1,5 @@
 import pandas as pd
+
 def analyze_data(data:pd.DataFrame):
     data_describe_numerical = {"features": [], "data type":[], "mean": [], "std": [], "min": [], "max": [], "range":[], "skewness":[], "kurtosis":[], "missing %": []}
     data_describe_categorical = {"features:": [], "data type":[], "unique values": [], "most frequent value": [], "most frequent value count": [], "missing %": []}
@@ -23,8 +24,8 @@ def analyze_data(data:pd.DataFrame):
             data_describe_numerical["missing %"].append(data[feature].isna().mean() * 100)
     descritive_numerical_data = pd.DataFrame(data_describe_numerical)
     descritive_categorical_data = pd.DataFrame(data_describe_categorical)
-    descritive_categorical_data.to_csv("categorical_data_description.csv", index=False)
-    descritive_numerical_data.to_csv("numerical_data_description.csv", index=False)
+    descritive_categorical_data.to_csv("t11_categorical_data_description.csv", index=False)
+    descritive_numerical_data.to_csv("t11_numerical_data_description.csv", index=False)
     return descritive_numerical_data, descritive_categorical_data
 
 def preprocess_data(data:pd.DataFrame):
@@ -44,4 +45,4 @@ if __name__ == "__main__":
     print(categorical_description)
     
     data = preprocess_data(data)
-    data.to_csv("product_data_cleaned.csv", index=False)
+    data.to_csv("t11_cleaned_data.csv", index=False)
