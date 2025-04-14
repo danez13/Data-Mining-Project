@@ -29,11 +29,17 @@ def analyze_data(data:pd.DataFrame):
     return descritive_numerical_data, descritive_categorical_data
 
 def preprocess_data(data:pd.DataFrame):
-    data['f_FPro_class'] = data['f_FPro_class'].apply(lambda x: 0 if x == 3 else 1)
+    data['label'] = data['f_FPro_class'].apply(lambda x: 0 if x == 3 else 1)
     data.dropna(inplace=True)
     data.drop_duplicates(inplace=True)
     data.drop(columns=["brand", "food category", "store", "name", "original_ID"], inplace=True)
     return data
+
+    #data['f_FPro_class'] = data['f_FPro_class'].apply(lambda x: 0 if x == 3 else 1)
+    #data.dropna(inplace=True)
+    #data.drop_duplicates(inplace=True)
+    #data.drop(columns=["brand", "food category", "store", "name", "original_ID"], inplace=True)
+    #return data
 
 if __name__ == "__main__":
     data = pd.read_csv("product_data.csv")
