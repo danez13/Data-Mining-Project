@@ -6,8 +6,8 @@ import itertools
 import numpy as np
 
 data = pd.read_csv("t11_cleaned_data.csv")
-X = data.drop(columns=["f_FPro_class"])
-y = data["f_FPro_class"]
+X = data.drop(columns=["label"])
+y = data["label"]
 
 X_train_val, Xtest, y_train_val, ytest = train_test_split(X, y, test_size=0.1, random_state=11)
 
@@ -18,8 +18,6 @@ dt_params = {
     "min_samples_leaf": [1, 2, 5, 10],
     "min_weight_fraction_leaf": [0.0, 0.1, 0.2, 0.3],
     "max_leaf_nodes": [None, 5, 10,15],
-    "min_impurity_decrease": [0.0, 0.1, 0.2, 0.3],
-    "ccp_alpha": [0.0, 0.1, 0.2, 0.3],
 }
 
 keys, values = zip(*dt_params.items())

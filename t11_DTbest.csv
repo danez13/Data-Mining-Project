@@ -1,2 +1,2 @@
-min_samples_leaf,validation accuracy,validation precision,validation recall,validation f1,test accuracy,test precision,test recall,test f1
-1.0,0.9419416236241291,0.8757399137461945,0.8652757078986587,0.8702159468872457,0.9336550060313631,0.8552278820375335,0.8506666666666667,0.8529411764705882
+criterion,max_depth,min_samples_split,min_samples_leaf,min_weight_fraction_leaf,max_leaf_nodes,validation accuracy,validation precision,validation recall,validation f1,test accuracy,test precision,test recall,test f1
+entropy,,2,1,0.0,,0.9441540939317437,0.880034826226504,0.8706408345752609,0.8751183162446242,0.9360675512665863,0.8644986449864499,0.8506666666666667,0.8575268817204301

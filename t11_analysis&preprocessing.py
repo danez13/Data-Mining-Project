@@ -1,4 +1,5 @@
 import pandas as pd
+from sklearn.preprocessing import OrdinalEncoder
 
 def analyze_data(data:pd.DataFrame):
     data_describe_numerical = {"features": [], "data type":[], "mean": [], "std": [], "min": [], "max": [], "range":[], "skewness":[], "kurtosis":[], "missing %": []}
@@ -32,14 +33,11 @@ def preprocess_data(data:pd.DataFrame):
     data['label'] = data['f_FPro_class'].apply(lambda x: 0 if x == 3 else 1)
     data.dropna(inplace=True)
     data.drop_duplicates(inplace=True)
-    data.drop(columns=["brand", "food category", "store", "name", "original_ID"], inplace=True)
+    encoder = OrdinalEncoder()
+    data['store'] = encoder.fit_transform(data[['store']])
+    data['food category'] = encoder.fit_transform(data[['food category']])
+    data.drop(columns=["f_FPro_class","brand", "name", "original_ID"], inplace=True)
     return data
-
-    #data['f_FPro_class'] = data['f_FPro_class'].apply(lambda x: 0 if x == 3 else 1)
-    #data.dropna(inplace=True)
-    #data.drop_duplicates(inplace=True)
-    #data.drop(columns=["brand", "food category", "store", "name", "original_ID"], inplace=True)
-    #return data
 
 if __name__ == "__main__":
     data = pd.read_csv("product_data.csv")

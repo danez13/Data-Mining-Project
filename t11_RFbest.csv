@@ -1,0 +1,2 @@
+n_estimators,criterion,max_depth,validation accuracy,validation precision,validation recall,validation f1,test accuracy,test precision,test recall,test f1
+100,entropy,15.0,0.9664121262668977,0.9490397782544768,0.8992548435171386,0.9233428347590575,0.9595898673100121,0.9450867052023122,0.872,0.9070735090152566
