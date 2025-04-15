@@ -12,12 +12,7 @@ y = data["label"]
 X_train_val, Xtest, y_train_val, ytest = train_test_split(X, y, test_size=0.1, random_state=11)
 
 dt_params = {
-    "criterion": ["gini", "entropy", "log_loss"],
-    "max_depth": [None, 5, 10, 15],
-    "min_samples_split": [2, 5, 10, 20],
     "min_samples_leaf": [1, 2, 5, 10],
-    "min_weight_fraction_leaf": [0.0, 0.1, 0.2, 0.3],
-    "max_leaf_nodes": [None, 5, 10,15],
 }
 
 keys, values = zip(*dt_params.items())

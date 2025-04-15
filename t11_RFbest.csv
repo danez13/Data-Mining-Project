@@ -1,2 +1,2 @@
-n_estimators,criterion,max_depth,max_features,max_leaf_nodes,validation accuracy,validation precision,validation recall,validation f1,test accuracy,test precision,test recall,test f1
-200,gini,15.0,4,,0.9661439174086579,0.9519194921533243,0.8950819672131146,0.9224382978657056,0.9571773220747889,0.9470588235294117,0.8586666666666667,0.9006993006993007
+n_estimators,max_features,validation accuracy,validation precision,validation recall,validation f1,test accuracy,test precision,test recall,test f1
+200.0,4.0,0.9656075895669742,0.9549915754912522,0.8894187779433681,0.9208222770128467,0.9565741857659831,0.9495548961424333,0.8533333333333334,0.898876404494382

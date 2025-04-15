@@ -13,10 +13,7 @@ X_train_val, Xtest, y_train_val, ytest = train_test_split(X, y, test_size=0.1, r
 
 rf_params = {
     "n_estimators": [10, 50, 100, 200],
-    "criterion": ["gini", "entropy", "log_loss"],
-    "max_depth": [None, 5, 10, 15],
     "max_features": [1,2,4,8],
-    "max_leaf_nodes": [None, 5, 10, 20],
 }
 
 keys, values = zip(*rf_params.items())
