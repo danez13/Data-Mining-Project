@@ -1,2 +1,2 @@
-n_estimators,criterion,max_depth,validation accuracy,validation precision,validation recall,validation f1,test accuracy,test precision,test recall,test f1
-100,entropy,15.0,0.9664121262668977,0.9490397782544768,0.8992548435171386,0.9233428347590575,0.9595898673100121,0.9450867052023122,0.872,0.9070735090152566
+n_estimators,criterion,max_depth,max_features,max_leaf_nodes,validation accuracy,validation precision,validation recall,validation f1,test accuracy,test precision,test recall,test f1
+200,gini,15.0,4,,0.9661439174086579,0.9519194921533243,0.8950819672131146,0.9224382978657056,0.9571773220747889,0.9470588235294117,0.8586666666666667,0.9006993006993007

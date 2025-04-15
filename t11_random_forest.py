@@ -15,10 +15,7 @@ rf_params = {
     "n_estimators": [10, 50, 100, 200],
     "criterion": ["gini", "entropy", "log_loss"],
     "max_depth": [None, 5, 10, 15],
-    "min_samples_split": [2, 5, 10, 20],
-    "min_samples_leaf": [1, 2, 4, 8],
-    "min_weight_fraction_leaf": [0.0, 0.1, 0.2, 0.3],
-    "max_features": [None, "sqrt", "log2", 1],
+    "max_features": [1,2,4,8],
     "max_leaf_nodes": [None, 5, 10, 20],
 }
 
@@ -30,7 +27,6 @@ results = []
 best_results = []
 for combo in param_combos:
     params = dict(zip(keys, combo))
-    print(params)
     train_accuracies = []
     train_precisions = []
     train_recalls = []
