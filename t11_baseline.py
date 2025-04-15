@@ -5,17 +5,16 @@ from sklearn.metrics import classification_report, accuracy_score
 
 # Load the dataset
 df = pd.read_csv('t11_cleaned_data.csv')
+print(df.columns.tolist())
 
-# Transform f_FPro_class into binary label
-df['label'] = df['f_FPro_class'].apply(lambda x: 0 if x == 3 else 1)
 
 # Drop irrelevant columns (optional for baseline)
 drop_cols = ['original_ID', 'name', 'brand']  # these are unique per item
 df = df.drop(columns=drop_cols, errors='ignore')
 
 # Separate features and labels
-X = df.drop(columns=['f_FPro_class', 'label'])
-y = df['label']
+X = df.drop(columns=["label"])
+y = df["label"]
 
 # Split data
 X_train, X_test, y_train, y_test = train_test_split(
